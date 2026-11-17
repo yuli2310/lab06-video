@@ -1,5 +1,5 @@
 import React from 'react';
-import {Sequence} from 'remotion';
+import {AbsoluteFill, interpolate, Sequence, useCurrentFrame} from 'remotion';
 import {Scene1, SCENE1_FRAMES} from './scenes/Scene1';
 import {Scene2, SCENE2_FRAMES} from './scenes/Scene2';
 import {Scene3, SCENE3_FRAMES} from './scenes/Scene3';
@@ -16,12 +16,19 @@ const scenes: [React.FC, number][] = [
 const starts = scenes.reduce<number[]>((acc, [, n], i) => (i === 0 ? [0] : [...acc, acc[i - 1] + scenes[i - 1][1] - OVERLAP]), []);
 export const totalFrames = starts[starts.length - 1] + scenes[scenes.length - 1][1];
 
+// Fade each scene in over the overlap, so it crossfades with the end of the previous one.
+const Fade: React.FC<{first: boolean; children: React.ReactNode}> = ({first, children}) => {
+  const f = useCurrentFrame();
+  const o = first ? 1 : interpolate(f, [0, OVERLAP], [0, 1], {extrapolateRight: 'clamp'});
+  return <AbsoluteFill style={{opacity: o}}>{children}</AbsoluteFill>;
+};
+
 export const Explainer: React.FC = () => (
-  <>
+  <AbsoluteFill style={{background: '#0f172a'}}>
     {scenes.map(([S, n], i) => (
       <Sequence key={i} from={starts[i]} durationInFrames={n}>
-        <S />
+        <Fade first={i === 0}><S /></Fade>
       </Sequence>
     ))}
-  </>
+  </AbsoluteFill>
 );
