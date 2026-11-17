@@ -1,0 +1,5 @@
+.venv/
+node_modules/
+models/
+.claude/skills/lab06-collect/
+.DS_Store
