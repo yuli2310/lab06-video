@@ -2,11 +2,11 @@
 
 **What the viewer should understand:** a Bézier curve is traced by a dot that slides along lines between lines between control points. That same simple step, repeated, gives the curves of fonts, logos and animation.
 
-Target: 60 seconds, 6 scenes, one file each in `src/scenes/`. All visuals drawn in code (SVG in Remotion). Narration: Kokoro, English.
+Target: about 60–70 seconds, 6 scenes, one file each in `src/scenes/`. All visuals drawn in code (SVG in Remotion). Narration: Kokoro, English.
 
-## Scene 1 – Opening question (~9s) `Scene1.tsx`
-- **Screen:** a large letter S; zoom in until the outline is clearly smooth. Four points P0–P3 appear on it, and the curve stays on top.
-- **Narration:** "Look at this letter. How does a computer draw a perfectly smooth curve? It doesn't store the curve. It stores just four points."
+## Scene 1 – Motivation and the formula (~15s) `Scene1.tsx`
+- **Screen:** a large letter S; zoom in on a bend to show it stays smooth at any size. It turns into a thin curve with four points P0–P3. The curve shrinks to the top; below it, a line A—B with a dot t of the way along it, and the formula `point = (1 − t)·A + t·B` whose parts light up as they are spoken.
+- **Narration:** "Look at this letter. How does a computer draw a perfectly smooth curve, at any size? It stores just four points and one tiny formula: a weighted average. The point t of the way from A to B is one minus t, times A, plus t times B."
 
 ## Scene 2 – Two points (~10s) `Scene2.tsx`
 - **Screen:** P0 and P1 with the line between them. A blue dot moves along it as t runs 0.00 → 1.00, with a counter.
