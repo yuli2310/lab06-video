@@ -2,7 +2,7 @@ import React from 'react';
 import {AbsoluteFill, Audio, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {point, P} from '../bezier';
 
-export const SCENE5_AUDIO_SEC = 12.52;
+export const SCENE5_AUDIO_SEC = 9.62;
 export const SCENE5_PAD = 15;
 export const SCENE5_FRAMES = Math.ceil(SCENE5_AUDIO_SEC * 30) + SCENE5_PAD * 2;
 
@@ -31,9 +31,9 @@ export const Scene5: React.FC = () => {
   const P2: P = [950 - move * (190 * Math.sin(f / 16) + 20), 230 + move * (90 * Math.sin(f / 12))];
   const A: P[] = [E0, P1, P2, E3];
   const curve = Array.from({length: 61}, (_, i) => point(A, i / 60));
-  const partA = 1 - on(243, 263); // fades when the S comes in
-  const ringT = on(78, 158);
-  const tang = on(158, 175) * (1 - on(235, 243));
+  const partA = 1 - on(192, 212); // fades when the S comes in
+  const ringT = on(79, 135);
+  const tang = on(138, 150) * (1 - on(185, 192));
 
   return (
     <AbsoluteFill style={{background: '#0f172a', fontFamily: 'sans-serif', color: '#e2e8f0'}}>
@@ -58,12 +58,12 @@ export const Scene5: React.FC = () => {
         </g>
         {/* ---- part B: the S as three curves joined end to end ---- */}
         {S_SEGS.map((s, i) => {
-          const start = [243, 301, 330][i];
+          const start = [192, 243, 262][i];
           return <path key={i} d={d(s.pts)} pathLength={1} fill="none" stroke={s.col} strokeWidth={14} strokeLinecap="round"
             strokeDasharray="1 1" strokeDashoffset={1 - on(start, start + 25)} />;
         })}
         {[S_SEGS[0].pts[3], S_SEGS[1].pts[3]].map((p, i) => (
-          <circle key={i} cx={p[0]} cy={p[1]} r={13 * pop([326, 356][i])} fill="#f8fafc" stroke="#0f172a" strokeWidth={4} />
+          <circle key={i} cx={p[0]} cy={p[1]} r={13 * pop([220, 268][i])} fill="#f8fafc" stroke="#0f172a" strokeWidth={4} />
         ))}
       </svg>
     </AbsoluteFill>

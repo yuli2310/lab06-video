@@ -2,7 +2,7 @@ import React from 'react';
 import {AbsoluteFill, Audio, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {levels, point, P} from '../bezier';
 
-export const SCENE4_AUDIO_SEC = 11.61;
+export const SCENE4_AUDIO_SEC = 10.18;
 export const SCENE4_PAD = 15;
 export const SCENE4_FRAMES = Math.ceil(SCENE4_AUDIO_SEC * 30) + SCENE4_PAD * 2;
 
@@ -19,16 +19,16 @@ export const Scene4: React.FC = () => {
   const on = (a: number, b: number) => interpolate(f, [a, b], [0, 1], clamp);
 
   // t: held at 0.4 while the levels are explained, back to 0, then swept to 1
-  const t = f < 185 ? 0.4 : f < 199 ? interpolate(f, [185, 199], [0.4, 0], clamp) : interpolate(f, [199, 270], [0, 1], clamp);
+  const t = f < 170 ? 0.4 : f < 185 ? interpolate(f, [170, 185], [0.4, 0], clamp) : interpolate(f, [185, 250], [0, 1], clamp);
   const L = levels(PTS, t);
-  const sweeping = f >= 199;
+  const sweeping = f >= 185;
   const n = Math.max(2, Math.round(t * 100));
   const trail = Array.from({length: n + 1}, (_, i) => point(PTS, (i / n) * t));
   const sx = SL_X0 + (SL_X1 - SL_X0) * t;
 
   // when does each level appear (frames after narration start)
-  const dotStart = [0, 40, 100, 144];
-  const lineStart = [20, 80, 120];
+  const dotStart = [0, 34, 90, 131];
+  const lineStart = [15, 68, 105];
 
   return (
     <AbsoluteFill style={{background: '#0f172a', fontFamily: 'sans-serif', color: '#e2e8f0'}}>
@@ -48,7 +48,7 @@ export const Scene4: React.FC = () => {
           </g>
         )))}
         {/* t slider */}
-        <g opacity={on(40, 60)}>
+        <g opacity={on(34, 54)}>
           <line x1={SL_X0} y1={SL_Y} x2={SL_X1} y2={SL_Y} stroke="#475569" strokeWidth={6} strokeLinecap="round" />
           <line x1={SL_X0} y1={SL_Y} x2={sx} y2={SL_Y} stroke="#facc15" strokeWidth={6} strokeLinecap="round" />
           <text x={SL_X0 - 30} y={SL_Y + 10} textAnchor="end" fontSize={28} fill="#94a3b8">0</text>
@@ -57,7 +57,7 @@ export const Scene4: React.FC = () => {
           <text x={640} y={SL_Y - 24} textAnchor="middle" fontSize={40} fontFamily="monospace" fill="#facc15">t = {t.toFixed(2)}</text>
         </g>
         {/* name of the method, when it is said */}
-        <text x={640} y={70} textAnchor="middle" fontSize={44} fontWeight={600} fill="#e2e8f0" opacity={on(279, 299)}>de Casteljau's algorithm</text>
+        <text x={640} y={70} textAnchor="middle" fontSize={44} fontWeight={600} fill="#e2e8f0" opacity={on(259, 279)}>de Casteljau's algorithm</text>
       </svg>
     </AbsoluteFill>
   );

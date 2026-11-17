@@ -2,7 +2,7 @@ import React from 'react';
 import {AbsoluteFill, Audio, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {lerp, point, P} from '../bezier';
 
-export const SCENE3_AUDIO_SEC = 9.75;
+export const SCENE3_AUDIO_SEC = 8.23;
 export const SCENE3_PAD = 15;
 export const SCENE3_FRAMES = Math.ceil(SCENE3_AUDIO_SEC * 30) + SCENE3_PAD * 2;
 
@@ -18,12 +18,12 @@ export const Scene3: React.FC = () => {
   const on = (a: number, b: number) => interpolate(f, [a, b], [0, 1], clamp);
 
   // t: held at 0.4 while the dots are explained, then back to 0, then swept to 1
-  const t = f < 190 ? 0.4 : f < 215 ? interpolate(f, [190, 215], [0.4, 0], clamp) : interpolate(f, [215, 290], [0, 1], clamp);
+  const t = f < 150 ? 0.4 : f < 165 ? interpolate(f, [150, 165], [0.4, 0], clamp) : interpolate(f, [165, 235], [0, 1], clamp);
   const A = lerp(PTS[0], PTS[1], t);
   const B = lerp(PTS[1], PTS[2], t);
   const C = lerp(A, B, t);
   const n = Math.max(2, Math.round(t * 80));
-  const sweeping = f >= 215;
+  const sweeping = f >= 165;
   const trail = Array.from({length: n + 1}, (_, i) => point(PTS, (i / n) * t));
   const sx = SL_X0 + (SL_X1 - SL_X0) * t;
   const sliderOn = on(22, 40);
@@ -38,7 +38,7 @@ export const Scene3: React.FC = () => {
         {/* yellow trail of the last dot */}
         {sweeping && <polyline points={trail.map((p) => p.join(',')).join(' ')} fill="none" stroke="#facc15" strokeWidth={7} strokeLinecap="round" />}
         {/* pink line between the two blue dots */}
-        <line {...line(A, lerp(A, B, on(110, 135)))} stroke="#f472b6" strokeWidth={5} opacity={pop(37)} />
+        <line {...line(A, lerp(A, B, on(104, 125)))} stroke="#f472b6" strokeWidth={5} opacity={pop(39)} />
         {PTS.map((p, i) => (
           <g key={i} transform={`translate(${p[0]} ${p[1]}) scale(${i === 2 ? pop(8) : 1})`}>
             <circle r={15} fill="#e2e8f0" />
@@ -46,9 +46,9 @@ export const Scene3: React.FC = () => {
           </g>
         ))}
         {/* blue dots on each line */}
-        {[A, B].map((p, i) => <circle key={i} cx={p[0]} cy={p[1]} r={13 * pop(37)} fill="#38bdf8" />)}
+        {[A, B].map((p, i) => <circle key={i} cx={p[0]} cy={p[1]} r={13 * pop(39)} fill="#38bdf8" />)}
         {/* pink dot on the new line */}
-        <circle cx={C[0]} cy={C[1]} r={17 * pop(137)} fill="#f472b6" />
+        <circle cx={C[0]} cy={C[1]} r={17 * pop(125)} fill="#f472b6" />
         {/* t slider */}
         <g opacity={sliderOn}>
           <line x1={SL_X0} y1={SL_Y} x2={SL_X1} y2={SL_Y} stroke="#475569" strokeWidth={6} strokeLinecap="round" />
