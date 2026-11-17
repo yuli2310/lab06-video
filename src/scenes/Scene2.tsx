@@ -1,5 +1,5 @@
 import React from 'react';
-import {AbsoluteFill, Audio, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, Audio, Easing, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {lerp, P} from '../bezier';
 
 export const SCENE2_AUDIO_SEC = 9.34;
@@ -18,10 +18,11 @@ export const Scene2: React.FC = () => {
   const fade = (a: number, b: number) => interpolate(f, [a, b], [0, 1], clamp);
 
   // t: hidden until the dot appears, held at 0.25, then swept 0.25 -> 1 -> 0.25
-  const t = f < 225 ? 0.25 : f < 255 ? interpolate(f, [225, 255], [0.25, 1], clamp) : interpolate(f, [255, 280], [1, 0.25], clamp);
+  const e = Easing.inOut(Easing.cubic);
+  const t = f < 214 ? 0.25 : f < 250 ? interpolate(f, [214, 250], [0.25, 1], {...clamp, easing: e}) : interpolate(f, [250, 285], [1, 0.25], {...clamp, easing: e});
   const D = lerp(P0, P1, t);
-  const dotOn = pop(145);
-  const sliderOn = fade(65, 85);
+  const dotOn = pop(119);
+  const sliderOn = fade(51, 70);
   const sx = SL_X0 + (SL_X1 - SL_X0) * t;
 
   return (

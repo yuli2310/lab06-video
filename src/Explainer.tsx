@@ -1,24 +1,27 @@
 import React from 'react';
-import {Audio, Sequence, staticFile} from 'remotion';
-import durs from './durations.json';
-import {Scene1, Scene2, Scene3, Scene4, Scene5, Scene6, Scene7} from './scenes/Scenes';
-const FPS = 30, PAD = 15;
-const scenes = [Scene1, Scene2, Scene3, Scene4, Scene5, Scene6, Scene7];
-const lens = durs.map((d) => Math.ceil(d * FPS) + PAD * 2);
-export const totalFrames = lens.reduce((a, b) => a + b, 0);
-export const Explainer: React.FC = () => {
-  let start = 0;
-  return (
-    <>
-      {scenes.map((S, i) => {
-        const from = start; start += lens[i];
-        return (
-          <Sequence key={i} from={from} durationInFrames={lens[i]}>
-            <S />
-            <Sequence from={PAD}><Audio src={staticFile(`narr/s${i + 1}.wav`)} /></Sequence>
-          </Sequence>
-        );
-      })}
-    </>
-  );
-};
+import {Sequence} from 'remotion';
+import {Scene1, SCENE1_FRAMES} from './scenes/Scene1';
+import {Scene2, SCENE2_FRAMES} from './scenes/Scene2';
+import {Scene3, SCENE3_FRAMES} from './scenes/Scene3';
+import {Scene4, SCENE4_FRAMES} from './scenes/Scene4';
+import {Scene5, SCENE5_FRAMES} from './scenes/Scene5';
+import {Scene6, SCENE6_FRAMES} from './scenes/Scene6';
+
+// Each scene has 15 frames of silence at both ends; overlap neighbours by 20 frames to tighten the pacing.
+const OVERLAP = 20;
+const scenes: [React.FC, number][] = [
+  [Scene1, SCENE1_FRAMES], [Scene2, SCENE2_FRAMES], [Scene3, SCENE3_FRAMES],
+  [Scene4, SCENE4_FRAMES], [Scene5, SCENE5_FRAMES], [Scene6, SCENE6_FRAMES],
+];
+const starts = scenes.reduce<number[]>((acc, [, n], i) => (i === 0 ? [0] : [...acc, acc[i - 1] + scenes[i - 1][1] - OVERLAP]), []);
+export const totalFrames = starts[starts.length - 1] + scenes[scenes.length - 1][1];
+
+export const Explainer: React.FC = () => (
+  <>
+    {scenes.map(([S, n], i) => (
+      <Sequence key={i} from={starts[i]} durationInFrames={n}>
+        <S />
+      </Sequence>
+    ))}
+  </>
+);

@@ -58,12 +58,12 @@ export const Scene5: React.FC = () => {
         </g>
         {/* ---- part B: the S as three curves joined end to end ---- */}
         {S_SEGS.map((s, i) => {
-          const start = [243, 294, 325][i];
+          const start = [243, 301, 330][i];
           return <path key={i} d={d(s.pts)} pathLength={1} fill="none" stroke={s.col} strokeWidth={14} strokeLinecap="round"
             strokeDasharray="1 1" strokeDashoffset={1 - on(start, start + 25)} />;
         })}
         {[S_SEGS[0].pts[3], S_SEGS[1].pts[3]].map((p, i) => (
-          <circle key={i} cx={p[0]} cy={p[1]} r={13 * pop([320, 350][i])} fill="#f8fafc" stroke="#0f172a" strokeWidth={4} />
+          <circle key={i} cx={p[0]} cy={p[1]} r={13 * pop([326, 356][i])} fill="#f8fafc" stroke="#0f172a" strokeWidth={4} />
         ))}
       </svg>
     </AbsoluteFill>

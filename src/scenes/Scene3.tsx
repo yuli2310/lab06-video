@@ -18,15 +18,15 @@ export const Scene3: React.FC = () => {
   const on = (a: number, b: number) => interpolate(f, [a, b], [0, 1], clamp);
 
   // t: held at 0.4 while the dots are explained, then back to 0, then swept to 1
-  const t = f < 213 ? 0.4 : f < 228 ? interpolate(f, [213, 228], [0.4, 0], clamp) : interpolate(f, [228, 292], [0, 1], clamp);
+  const t = f < 190 ? 0.4 : f < 215 ? interpolate(f, [190, 215], [0.4, 0], clamp) : interpolate(f, [215, 290], [0, 1], clamp);
   const A = lerp(PTS[0], PTS[1], t);
   const B = lerp(PTS[1], PTS[2], t);
   const C = lerp(A, B, t);
   const n = Math.max(2, Math.round(t * 80));
-  const sweeping = f >= 228;
+  const sweeping = f >= 215;
   const trail = Array.from({length: n + 1}, (_, i) => point(PTS, (i / n) * t));
   const sx = SL_X0 + (SL_X1 - SL_X0) * t;
-  const sliderOn = on(37, 55);
+  const sliderOn = on(22, 40);
 
   return (
     <AbsoluteFill style={{background: '#0f172a', fontFamily: 'sans-serif', color: '#e2e8f0'}}>
@@ -42,7 +42,7 @@ export const Scene3: React.FC = () => {
         {PTS.map((p, i) => (
           <g key={i} transform={`translate(${p[0]} ${p[1]}) scale(${i === 2 ? pop(8) : 1})`}>
             <circle r={15} fill="#e2e8f0" />
-            <text x={i === 2 ? 22 : i === 1 ? 22 : 22} y={-20} fontSize={34} fontWeight={600} fill="#e2e8f0">P{i}</text>
+            <text x={i === 0 ? -70 : 22} y={i === 0 ? 40 : -20} fontSize={34} fontWeight={600} fill="#e2e8f0">P{i}</text>
           </g>
         ))}
         {/* blue dots on each line */}

@@ -19,9 +19,9 @@ export const Scene4: React.FC = () => {
   const on = (a: number, b: number) => interpolate(f, [a, b], [0, 1], clamp);
 
   // t: held at 0.4 while the levels are explained, back to 0, then swept to 1
-  const t = f < 191 ? 0.4 : f < 205 ? interpolate(f, [191, 205], [0.4, 0], clamp) : interpolate(f, [205, 290], [0, 1], clamp);
+  const t = f < 185 ? 0.4 : f < 199 ? interpolate(f, [185, 199], [0.4, 0], clamp) : interpolate(f, [199, 270], [0, 1], clamp);
   const L = levels(PTS, t);
-  const sweeping = f >= 205;
+  const sweeping = f >= 199;
   const n = Math.max(2, Math.round(t * 100));
   const trail = Array.from({length: n + 1}, (_, i) => point(PTS, (i / n) * t));
   const sx = SL_X0 + (SL_X1 - SL_X0) * t;
@@ -57,7 +57,7 @@ export const Scene4: React.FC = () => {
           <text x={640} y={SL_Y - 24} textAnchor="middle" fontSize={40} fontFamily="monospace" fill="#facc15">t = {t.toFixed(2)}</text>
         </g>
         {/* name of the method, when it is said */}
-        <text x={640} y={70} textAnchor="middle" fontSize={44} fontWeight={600} fill="#e2e8f0" opacity={on(267, 290)}>de Casteljau's algorithm</text>
+        <text x={640} y={70} textAnchor="middle" fontSize={44} fontWeight={600} fill="#e2e8f0" opacity={on(279, 299)}>de Casteljau's algorithm</text>
       </svg>
     </AbsoluteFill>
   );

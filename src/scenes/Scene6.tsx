@@ -30,7 +30,7 @@ export const Scene6: React.FC = () => {
   const on = (a: number, b: number) => interpolate(f, [a, b], [0, 1], clamp);
 
   // easing demo: dot on the ease curve; ball position = eased progress
-  const tp = ((f - 86) / 70) % 1;
+  const tp = Math.min(1, Math.max(0, (((f - 78) % 80) - 5) / 70)); // hold at both ends
   const ep = point(EASE, Math.max(0, tp));
   const BX = CX[2] - 120, BY = PY0 + 40, BS = 240; // graph box (top-left, size)
   const graph = (p: P): P => [BX + p[0] * BS, BY + BS - p[1] * BS];
@@ -43,24 +43,24 @@ export const Scene6: React.FC = () => {
     <AbsoluteFill style={{background: '#0f172a', fontFamily: 'sans-serif', color: '#e2e8f0'}}>
       <Audio src={staticFile('narr/scene6.wav')} />
       <svg width={1280} height={720}>
-        <Panel i={0} label="Fonts" show={on(0, 20)}>
+        <Panel i={0} label="Fonts" show={on(25, 45)}>
           <g transform={`translate(${CX[0]} ${PY0 + PH / 2}) scale(0.5) translate(-640 -360)`}>
             <path d={S_PATH} fill="none" stroke="#f8fafc" strokeWidth={46} strokeLinecap="round" />
           </g>
         </Panel>
-        <Panel i={1} label="Vector logos" show={on(60, 80)}>
+        <Panel i={1} label="Vector logos" show={on(52, 72)}>
           <g transform={`translate(${CX[1]} ${PY0 + PH / 2}) scale(1.7)`}>
             <path d={HEART} fill="#f472b6" stroke="#fda4af" strokeWidth={3} strokeLinejoin="round" />
           </g>
         </Panel>
-        <Panel i={2} label="Animation easing" show={on(86, 106)}>
+        <Panel i={2} label="Animation easing" show={on(78, 98)}>
           <rect x={BX} y={BY} width={BS} height={BS} fill="none" stroke="#475569" strokeWidth={2} />
           <polyline points={curve.map((p) => p.join(',')).join(' ')} fill="none" stroke="#facc15" strokeWidth={6} strokeLinecap="round" />
           <circle cx={graph(ep)[0]} cy={graph(ep)[1]} r={9} fill="#38bdf8" />
           <line x1={trackX0} y1={ballY} x2={trackX1} y2={ballY} stroke="#475569" strokeWidth={4} strokeLinecap="round" />
           <circle cx={ballX} cy={ballY} r={14} fill="#38bdf8" />
         </Panel>
-        <text x={640} y={680} textAnchor="middle" fontSize={44} fontWeight={600} fill="#facc15" opacity={on(127, 150)}>
+        <text x={640} y={680} textAnchor="middle" fontSize={44} fontWeight={600} fill="#facc15" opacity={on(135, 155)}>
           Repeated midpoints → smooth curves
         </text>
       </svg>
